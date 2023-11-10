@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Rivoltante.Core.Emoji;
+namespace Rivoltante.Core;
 
 public class CustomEmoji(Ulid id) : ICustomEmoji
 {

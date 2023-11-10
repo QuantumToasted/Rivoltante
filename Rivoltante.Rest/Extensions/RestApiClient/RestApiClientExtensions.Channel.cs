@@ -54,9 +54,12 @@ public static partial class RestApiClientExtensions
         var messages = await client.RequestArrayAsync<MessageApiModel>(HttpMethod.Get, route, model, cancellationToken);
         return new BulkMessagesApiModel(messages, Array.Empty<UserApiModel>(), Array.Empty<MemberApiModel>());
     }
-
+    
     public static ValueTask DeleteMessageAsync(this IRevoltRestApiClient client, Ulid channelId, Ulid messageId, CancellationToken cancellationToken = default)
         => client.RequestAsync(HttpMethod.Delete, FormatRoute("channels/{0}/messages/{1}", channelId, messageId), null, cancellationToken);
+
+    public static ValueTask DeleteMessagesAsync(this IRevoltRestApiClient client, Ulid channelId, BulkDeleteMessagesApiModel model, CancellationToken cancellationToken = default)
+        => client.RequestAsync(HttpMethod.Delete, FormatRoute("channels/{0}/messages/bulk", channelId), model, cancellationToken);
     
     public static ValueTask<ChannelApiModel> FetchChannelAsync(this IRevoltRestApiClient client, Ulid channelId, CancellationToken cancellationToken = default)
         => client.RequestAsync<ChannelApiModel>(HttpMethod.Get, FormatRoute("channels/{0}", channelId), cancellationToken: cancellationToken);
@@ -85,4 +88,23 @@ public static partial class RestApiClientExtensions
     
     public static ValueTask<ChannelApiModel> SetServerChannelDefaultPermissionsAsync(this IRevoltRestApiClient client, Ulid channelId, SetServerChannelDefaultPermissionsApiModel model, CancellationToken cancellationToken = default)
         => client.RequestAsync<ChannelApiModel>(HttpMethod.Put, FormatRoute("channels/{0}/permissions/default", channelId), model, cancellationToken);
+
+    public static ValueTask AddMessageReactionAsync(this IRevoltRestApiClient client, Ulid channelId, Ulid messageId, IEmoji emoji, CancellationToken cancellationToken = default)
+        => client.RequestAsync(HttpMethod.Put, FormatRoute("channels/{0}/messages/{1}/reactions/{2}", channelId, messageId, emoji.Value), null, cancellationToken);
+
+    public static ValueTask RemoveMessageReactionsAsync(this IRevoltRestApiClient client, Ulid channelId, Ulid messageId, IEmoji emoji, Ulid? userId, bool? removeAll, CancellationToken cancellationToken = default)
+    {
+        var dict = new Dictionary<string, object>();
+
+        if (userId.HasValue)
+            dict["user_id"] = userId.Value;
+
+        if (removeAll.HasValue)
+            dict["remove_all"] = removeAll.Value;
+
+        return client.RequestAsync(HttpMethod.Delete, FormatRoute("channels/{0}/messages/{1}/reactions/{2}", dict, channelId, messageId, emoji.Value), null, cancellationToken);
+    }
+
+    public static ValueTask RemoveAllMessageReactionsAsync(this IRevoltRestApiClient client, Ulid channelId, Ulid messageId, CancellationToken cancellationToken = default)
+        => client.RequestAsync(HttpMethod.Delete, FormatRoute("channels/{0}/messages/{1}/reactions", channelId, messageId), null, cancellationToken);
 }

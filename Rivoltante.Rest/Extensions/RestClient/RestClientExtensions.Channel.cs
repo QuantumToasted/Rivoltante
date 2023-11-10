@@ -80,6 +80,18 @@ public static partial class RestClientExtensions
         var messagesModel = await client.ApiClient.SearchForMessagesAsync(channelId, searchMessageModel, cancellationToken);
         return new RestBulkMessages(messagesModel, client);
     }
+
+    public static ValueTask DeleteMessageAsync(this IRevoltRestClient client, Ulid channelId, Ulid messageId, CancellationToken cancellationToken = default)
+        => client.ApiClient.DeleteMessageAsync(channelId, messageId, cancellationToken);
+
+    public static ValueTask DeleteMessagesAsync(this IRevoltRestClient client, Ulid channelId, IEnumerable<Ulid> messageIds, CancellationToken cancellationToken = default)
+        => client.ApiClient.DeleteMessagesAsync(channelId, new BulkDeleteMessagesApiModel(messageIds.ToArray()), cancellationToken);
+
+    public static async ValueTask<IChannel> FetchChannelAsync(this IRevoltRestClient client, Ulid channelId, CancellationToken cancellationToken = default)
+    {
+        var model = await client.ApiClient.FetchChannelAsync(channelId, cancellationToken);
+        return CommonChannel.Create(model, client);
+    }
     
     public static ValueTask CloseChannelAsync(this IRevoltRestClient client, Ulid channelId, bool leaveGroupSilently = false, CancellationToken cancellationToken = default)
         => client.ApiClient.CloseChannelAsync(channelId, leaveGroupSilently, cancellationToken);
@@ -119,6 +131,15 @@ public static partial class RestClientExtensions
         var model = await client.ApiClient.SetServerChannelDefaultPermissionsAsync(channelId, new SetServerChannelDefaultPermissionsApiModel(new RolePermissionsApiModel(allowed, denied)), cancellationToken);
         return (IServerChannel)CommonChannel.Create(model, client);
     }
+
+    public static ValueTask AddMessageReactionAsync(this IRevoltRestClient client, Ulid channelId, Ulid messageId, IEmoji emoji, CancellationToken cancellationToken = default)
+        => client.ApiClient.AddMessageReactionAsync(channelId, messageId, emoji, cancellationToken);
+
+    public static ValueTask RemoveMessageReactionsAsync(this IRevoltRestClient client, Ulid channelId, Ulid messageId, IEmoji emoji, Ulid? userId = null, bool? removeAll = null, CancellationToken cancellationToken = default)
+        => client.ApiClient.RemoveMessageReactionsAsync(channelId, messageId, emoji, userId, removeAll, cancellationToken);
+
+    public static ValueTask RemoveAllMessageReactionsAsync(this IRevoltRestClient client, Ulid channelId, Ulid messageId, CancellationToken cancellationToken = default)
+        => client.ApiClient.RemoveAllMessageReactionsAsync(channelId, messageId, cancellationToken);
     
     private static ValueTask<ChannelApiModel> InternalEditChannelAsync<TProperties>(this IRevoltRestClient client, Ulid channelId, Action<TProperties> action, CancellationToken cancellationToken = default)
         where TProperties : EditChannelProperties
