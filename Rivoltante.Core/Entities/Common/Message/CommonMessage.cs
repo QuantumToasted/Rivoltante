@@ -16,8 +16,8 @@ public sealed class CommonMessage : IMessage
         Attachments = Optional<IReadOnlyList<CommonAttachment>>.ConvertOrFallback(model.Attachments,
             static m => m.Select(static x => new CommonAttachment(x)).ToList(), new List<CommonAttachment>());
         LastEdited = model.Edited.GetValueOrNullable();
-        Embeds = Optional<IReadOnlyList<CommonMessageEmbed>>.ConvertOrFallback(model.Embeds, static m => m.Select(CommonMessageEmbed.Create).ToList(),
-            new List<CommonMessageEmbed>());
+        Embeds = Optional<IReadOnlyList<IMessageEmbed>>.ConvertOrFallback(model.Embeds, static m => m.Select(CommonMessageEmbed.Create).ToList(),
+            new List<IMessageEmbed>());
         MentionedUserIds =
             Optional<IReadOnlyList<Ulid>>.ConvertOrFallback(model.Mentions, static m => m.ToList(), new List<Ulid>());
         MessageIdsRepliedTo = Optional<IReadOnlyList<Ulid>>.ConvertOrFallback(model.Replies, static m => m.ToList(), new List<Ulid>());

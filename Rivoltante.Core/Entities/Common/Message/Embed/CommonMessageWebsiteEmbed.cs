@@ -2,11 +2,12 @@
 
 public class CommonMessageWebsiteEmbed : CommonMessageEmbed
 {
-    internal CommonMessageWebsiteEmbed(MessageWebsiteEmbedApiModel model) 
+    public CommonMessageWebsiteEmbed(MessageEmbedApiModel model) 
         : base(model)
     {
         Url = model.Url.GetValueOrDefault();
         OriginalUrl = model.OriginalUrl.GetValueOrDefault();
+        Metadata = Optional<IWebsiteEmbedMetadata>.ConvertOrDefault(model.Special, CommonWebsiteEmbedMetadata.Create);
         Title = model.Title.GetValueOrDefault();
         Description = model.Description.GetValueOrDefault();
         Media = Optional<CommonMessageEmbedImage>.ConvertOrDefault(model.Image, static m => new CommonMessageEmbedImage(m))
@@ -20,7 +21,7 @@ public class CommonMessageWebsiteEmbed : CommonMessageEmbed
     
     public string? OriginalUrl { get; }
     
-    // TODO: Special
+    public IWebsiteEmbedMetadata? Metadata { get; }
     
     public string? Title { get; }
     

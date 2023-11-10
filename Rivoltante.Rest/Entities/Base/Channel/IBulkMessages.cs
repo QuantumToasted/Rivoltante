@@ -2,7 +2,7 @@
 
 namespace Rivoltante.Rest;
 
-public interface IFetchedMessages : IClientEntity
+public interface IBulkMessages : IClientEntity
 {
     IReadOnlyDictionary<Ulid, IMessage> Messages { get; }
     

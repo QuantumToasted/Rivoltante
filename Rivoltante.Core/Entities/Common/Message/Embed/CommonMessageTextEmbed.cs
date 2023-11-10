@@ -1,27 +1,16 @@
 ﻿namespace Rivoltante.Core;
 
-public class CommonMessageTextEmbed : CommonMessageEmbed
+public class CommonMessageTextEmbed(MessageEmbedApiModel model) : CommonMessageEmbed(model)
 {
-    internal CommonMessageTextEmbed(MessageTextEmbedApiModel model) 
-        : base(model)
-    {
-        IconUrl = model.IconUrl.GetValueOrDefault();
-        Url = model.IconUrl.GetValueOrDefault();
-        Title = model.Title.GetValueOrDefault();
-        Description = model.Description.GetValueOrDefault();
-        Media = model.Media.GetValueOrDefault();
-        Color = model.Color.GetValueOrDefault();
-    }
+    public string? IconUrl { get; } = model.IconUrl.GetValueOrDefault();
     
-    public string? IconUrl { get; }
+    public string? Url { get; } = model.IconUrl.GetValueOrDefault();
     
-    public string? Url { get; }
+    public string? Title { get; } = model.Title.GetValueOrDefault();
     
-    public string? Title { get; }
+    public string? Description { get; } = model.Description.GetValueOrDefault();
     
-    public string? Description { get; }
+    public IAttachment? Media { get; } = Optional<IAttachment>.ConvertOrDefault(model.Media, x => new CommonAttachment(x));
     
-    public string? Media { get; }
-    
-    public string? Color { get; }
+    public string? Color { get; } = model.Color.GetValueOrDefault();
 }

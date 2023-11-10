@@ -1,8 +1,7 @@
 ﻿namespace Rivoltante.Core;
 
-public enum ImageSize
+public enum EmbedImageSize
 {
-    Unknown,
     Large,
     Preview
 }

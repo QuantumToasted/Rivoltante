@@ -2,5 +2,5 @@
 
 public interface IMessageEmbedImage : IMessageEmbedMedia
 {
-    ImageSize Size { get; }
+    EmbedImageSize Size { get; }
 }

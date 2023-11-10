@@ -2,5 +2,5 @@
 
 public interface IMessageEmbed
 {
-    string Type { get; }
+    EmbedType Type { get; }
 }

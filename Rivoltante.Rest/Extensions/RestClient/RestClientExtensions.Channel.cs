@@ -1,4 +1,5 @@
-﻿using Rivoltante.Core;
+﻿using System.Net;
+using Rivoltante.Core;
 
 namespace Rivoltante.Rest;
 
@@ -47,10 +48,37 @@ public static partial class RestClientExtensions
     public static ValueTask AcknowledgeMessageAsync(this IRevoltRestClient client, Ulid channelId, Ulid messageId, CancellationToken cancellationToken = default)
         => client.ApiClient.AcknowledgeMessageAsync(channelId, messageId, cancellationToken);
 
-    public static async ValueTask<IFetchedMessages> FetchMessagesAsync(this IRevoltRestClient client, Ulid channelId, int? limit = null, Ulid? beforeMessageId = null, Ulid? afterMessageId = null, MessageSortOrder? sortOrder = null, Ulid? nearMessageId = null, bool? includeUsers = null, CancellationToken cancellationToken = default)
+    public static async ValueTask<IMessage?> FetchMessageAsync(this IRevoltRestClient client, Ulid channelId, Ulid messageId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var model = await client.ApiClient.FetchMessageAsync(channelId, messageId, cancellationToken);
+            return new CommonMessage(client, model);
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+    }
+
+    public static async ValueTask<IBulkMessages> FetchMessagesAsync(this IRevoltRestClient client, Ulid channelId, int? limit = null, Ulid? beforeMessageId = null, Ulid? afterMessageId = null, MessageSortOrder? sortOrder = null, Ulid? nearMessageId = null, bool? includeUsers = null, CancellationToken cancellationToken = default)
     {
         var model = await client.ApiClient.FetchMessagesAsync(channelId, limit, beforeMessageId, afterMessageId, sortOrder, nearMessageId, includeUsers, cancellationToken);
-        return new RestFetchedMessages(model, client);
+        return new RestBulkMessages(model, client);
+    }
+
+    public static async ValueTask<IBulkMessages> SearchForMessagesAsync(this IRevoltRestClient client, Ulid channelId, RevoltMessageSearch search, CancellationToken cancellationToken = default)
+    {
+        var searchMessageModel = new SearchChannelMessagesApiModel(
+            search.Query,
+            Optional<int>.FromNullable(search.Limit),
+            Optional<Ulid>.FromNullable(search.BeforeMessageId),
+            Optional<Ulid>.FromNullable(search.AfterMessageId),
+            Optional<MessageSortOrder>.FromNullable(search.SortOrder),
+            Optional<bool>.FromNullable(search.IncludeUsers));
+
+        var messagesModel = await client.ApiClient.SearchForMessagesAsync(channelId, searchMessageModel, cancellationToken);
+        return new RestBulkMessages(messagesModel, client);
     }
     
     public static ValueTask CloseChannelAsync(this IRevoltRestClient client, Ulid channelId, bool leaveGroupSilently = false, CancellationToken cancellationToken = default)

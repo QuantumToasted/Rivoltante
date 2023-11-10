@@ -10,7 +10,10 @@ public static partial class RestApiClientExtensions
     public static ValueTask AcknowledgeMessageAsync(this IRevoltRestApiClient client, Ulid channelId, Ulid messageId, CancellationToken cancellationToken = default)
         => client.RequestAsync(HttpMethod.Put, FormatRoute("channels/{0}/ack/{1}", channelId, messageId), null, cancellationToken);
 
-    public static async ValueTask<FetchMessagesApiModel> FetchMessagesAsync(this IRevoltRestApiClient client, Ulid channelId, int? limit, Ulid? beforeMessageId, Ulid? afterMessageId, MessageSortOrder? sortOrder, Ulid? nearMessageId, bool? includeUsers, CancellationToken cancellationToken = default)
+    public static ValueTask<MessageApiModel> FetchMessageAsync(this IRevoltRestApiClient client, Ulid channelId, Ulid messageId, CancellationToken cancellationToken = default)
+        => client.RequestAsync<MessageApiModel>(HttpMethod.Get, FormatRoute("channels/{0}/messages/{1}", channelId, messageId), null, cancellationToken);
+
+    public static async ValueTask<BulkMessagesApiModel> FetchMessagesAsync(this IRevoltRestApiClient client, Ulid channelId, int? limit, Ulid? beforeMessageId, Ulid? afterMessageId, MessageSortOrder? sortOrder, Ulid? nearMessageId, bool? includeUsers, CancellationToken cancellationToken = default)
     {
         var dict = new Dictionary<string, object>();
 
@@ -35,12 +38,26 @@ public static partial class RestApiClientExtensions
         var route = FormatRoute("channels/{0}/messages", dict, channelId);
 
         if (includeUsers is true)
-            return await client.RequestAsync<FetchMessagesApiModel>(HttpMethod.Get, route, null, cancellationToken);
+            return await client.RequestAsync<BulkMessagesApiModel>(HttpMethod.Get, route, null, cancellationToken);
 
         var messages = await client.RequestArrayAsync<MessageApiModel>(HttpMethod.Get, route, null, cancellationToken);
-        return new FetchMessagesApiModel(messages, Array.Empty<UserApiModel>(), Array.Empty<MemberApiModel>());
+        return new BulkMessagesApiModel(messages, Array.Empty<UserApiModel>(), Array.Empty<MemberApiModel>());
     }
 
+    public static async ValueTask<BulkMessagesApiModel> SearchForMessagesAsync(this IRevoltRestApiClient client, Ulid channelId, SearchChannelMessagesApiModel model, CancellationToken cancellationToken = default)
+    {
+        var route = FormatRoute("channels/{0}/search", channelId);
+        
+        if (model.IncludeUsers.GetValueOrDefault())
+            return await client.RequestAsync<BulkMessagesApiModel>(HttpMethod.Get, route, model, cancellationToken);
+
+        var messages = await client.RequestArrayAsync<MessageApiModel>(HttpMethod.Get, route, model, cancellationToken);
+        return new BulkMessagesApiModel(messages, Array.Empty<UserApiModel>(), Array.Empty<MemberApiModel>());
+    }
+
+    public static ValueTask DeleteMessageAsync(this IRevoltRestApiClient client, Ulid channelId, Ulid messageId, CancellationToken cancellationToken = default)
+        => client.RequestAsync(HttpMethod.Delete, FormatRoute("channels/{0}/messages/{1}", channelId, messageId), null, cancellationToken);
+    
     public static ValueTask<ChannelApiModel> FetchChannelAsync(this IRevoltRestApiClient client, Ulid channelId, CancellationToken cancellationToken = default)
         => client.RequestAsync<ChannelApiModel>(HttpMethod.Get, FormatRoute("channels/{0}", channelId), cancellationToken: cancellationToken);
 

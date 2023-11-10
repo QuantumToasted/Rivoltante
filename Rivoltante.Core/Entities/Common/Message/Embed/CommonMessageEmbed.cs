@@ -1,22 +1,17 @@
 ﻿namespace Rivoltante.Core;
 
-public abstract class CommonMessageEmbed : IMessageEmbed
+public abstract class CommonMessageEmbed(MessageEmbedApiModel model) : IMessageEmbed
 {
-    protected internal CommonMessageEmbed(MessageEmbedApiModel model)
-    {
-        Type = model.Type;
-    }
+    public EmbedType Type { get; } = model.Type;
 
-    public string Type { get; }
-
-    public static CommonMessageEmbed Create(MessageEmbedApiModel model)
+    public static IMessageEmbed Create(MessageEmbedApiModel model)
     {
-        return model switch
+        return model.Type switch
         {
-            MessageImageEmbedApiModel imageEmbedModel => new CommonMessageImageEmbed(imageEmbedModel),
-            MessageTextEmbedApiModel textEmbedModel => new CommonMessageTextEmbed(textEmbedModel),
-            MessageVideoEmbedApiModel videoEmbedModel => new CommonMessageVideoEmbed(videoEmbedModel),
-            MessageWebsiteEmbedApiModel websiteEmbedModel => new CommonMessageWebsiteEmbed(websiteEmbedModel),
+            EmbedType.Website => new CommonMessageWebsiteEmbed(model),
+            EmbedType.Image => new CommonMessageImageEmbed(model),
+            EmbedType.Video => new CommonMessageVideoEmbed(model),
+            EmbedType.Text => new CommonMessageTextEmbed(model),
             _ => new CommonMessageUnknownEmbed(model)
         };
     }

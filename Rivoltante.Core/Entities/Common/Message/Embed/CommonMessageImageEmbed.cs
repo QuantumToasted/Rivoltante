@@ -1,21 +1,12 @@
 ﻿namespace Rivoltante.Core;
 
-public class CommonMessageImageEmbed : CommonMessageEmbed
+public class CommonMessageImageEmbed(MessageEmbedApiModel model) : CommonMessageEmbed(model)
 {
-    internal CommonMessageImageEmbed(MessageImageEmbedApiModel model)
-        : base(model)
-    {
-        Url = model.Url;
-        Width = model.Width;
-        Height = model.Height;
-        Size = Enum.TryParse<ImageSize>(model.Size, out var size) ? size : ImageSize.Unknown;
-    }
-    
-    public string Url { get; }
-    
-    public int Width { get; }
-    
-    public int Height { get; }
-    
-    public ImageSize Size { get; }
+    public string Url { get; } = model.Url.Value;
+
+    public int Width { get; } = model.Width.Value;
+
+    public int Height { get; } = model.Height.Value;
+
+    public EmbedImageSize Size { get; } = model.Size.Value;
 }

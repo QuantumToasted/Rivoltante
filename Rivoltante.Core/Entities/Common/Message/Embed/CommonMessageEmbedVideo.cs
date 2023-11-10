@@ -1,17 +1,10 @@
 ﻿namespace Rivoltante.Core;
 
-public class CommonMessageEmbedVideo : IMessageEmbedVideo
+public class CommonMessageEmbedVideo(MessageEmbedVideoApiModel model) : IMessageEmbedVideo
 {
-    public CommonMessageEmbedVideo(MessageEmbedVideoApiModel model)
-    {
-        Url = model.Url;
-        Width = model.Width;
-        Height = model.Height;
-    }
+    public string Url { get; } = model.Url;
 
-    public string Url { get; }
-    
-    public int Width { get; }
-    
-    public int Height { get; }
+    public int Width { get; } = model.Width;
+
+    public int Height { get; } = model.Height;
 }

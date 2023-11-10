@@ -2,7 +2,7 @@
 
 namespace Rivoltante.Rest;
 
-public class RestFetchedMessages(FetchMessagesApiModel model, IRevoltRestClient client) : IFetchedMessages
+public class RestBulkMessages(BulkMessagesApiModel model, IRevoltRestClient client) : IBulkMessages
 {
     public IRevoltClient Client { get; } = client;
 

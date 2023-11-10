@@ -2,12 +2,12 @@
 
 public class CommonMessageVideoEmbed : CommonMessageEmbed
 {
-    internal CommonMessageVideoEmbed(MessageVideoEmbedApiModel model)
+    internal CommonMessageVideoEmbed(MessageEmbedApiModel model)
         : base(model)
     {
-        Url = model.Url;
-        Width = model.Width;
-        Height = model.Height;
+        Url = model.Url.Value;
+        Width = model.Width.Value;
+        Height = model.Height.Value;
     }
     
     public string Url { get; }
