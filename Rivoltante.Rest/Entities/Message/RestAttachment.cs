@@ -2,9 +2,9 @@
 
 namespace Rivoltante.Rest.Message;
 
-public class RestMessageAttachment : IMessageAttachment
+public class RestAttachment : IAttachment
 {
-    public RestMessageAttachment(MessageAttachmentApiModel model)
+    public RestAttachment(AttachmentApiModel model)
     {
         Id = model.Id;
         Tag = model.Tag;
@@ -27,7 +27,7 @@ public class RestMessageAttachment : IMessageAttachment
     
     public string Filename { get; }
     
-    public IMessageAttachmentMetadata? Metadata { get; }
+    public IAttachmentMetadata? Metadata { get; }
     
     public string ContentType { get; }
     

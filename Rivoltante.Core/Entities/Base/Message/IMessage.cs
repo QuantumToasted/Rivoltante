@@ -14,7 +14,7 @@ public interface IMessage : IUlidEntity
     
     // TODO: System
     
-    IReadOnlyList<IMessageAttachment> Attachments { get; }
+    IReadOnlyList<IAttachment> Attachments { get; }
     
     DateTimeOffset? LastEdited { get; }
     

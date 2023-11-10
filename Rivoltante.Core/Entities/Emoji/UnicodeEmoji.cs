@@ -1,11 +1,6 @@
 ﻿namespace Rivoltante.Core.Emoji;
 
-public class UnicodeEmoji : IUnicodeEmoji
+public class UnicodeEmoji(string unicode) : IUnicodeEmoji
 {
-    public UnicodeEmoji(string unicode)
-    {
-        Unicode = unicode;
-    }
-    
-    public string Unicode { get; }
+    public string Unicode { get; } = unicode;
 }

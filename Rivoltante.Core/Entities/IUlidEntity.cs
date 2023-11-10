@@ -1,4 +1,3 @@
 ﻿namespace Rivoltante.Core;
 
-public interface IUlidEntity : IIdentifiableEntity, IClientEntity
-{ }
+public interface IUlidEntity : IIdentifiableEntity, IClientEntity;

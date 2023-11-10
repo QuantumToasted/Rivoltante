@@ -1,12 +1,12 @@
 ﻿namespace Rivoltante.Core;
 
-public interface IMessageAttachment : IIdentifiableEntity
+public interface IAttachment : IIdentifiableEntity
 {
     string Tag { get; }
     
     string Filename { get; }
     
-    IMessageAttachmentMetadata Metadata { get; }
+    IAttachmentMetadata Metadata { get; }
     
     string ContentType { get; }
     

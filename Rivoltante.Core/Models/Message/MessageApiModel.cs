@@ -10,7 +10,7 @@ public record MessageApiModel(
     [property: JsonProperty("webhook")] Optional<MessageWebhookApiModel> Webhook,
     [property: JsonProperty("content")] Optional<string> Content,
     //[property: JsonProperty("system")] TODO: system property
-    [property: JsonProperty("attachments")] Optional<MessageAttachmentApiModel[]> Attachments,
+    [property: JsonProperty("attachments")] Optional<AttachmentApiModel[]> Attachments,
     [property: JsonProperty("edited")] Optional<DateTimeOffset> Edited,
     [property: JsonProperty("embeds")] Optional<MessageEmbedApiModel[]> Embeds,
     [property: JsonProperty("mentions")] Optional<string[]> Mentions,

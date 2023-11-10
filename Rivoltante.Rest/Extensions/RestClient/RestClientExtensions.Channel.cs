@@ -5,8 +5,7 @@ namespace Rivoltante.Rest;
 
 public static partial class RestClientExtensions
 {
-    public static async Task<IMessage> CreateMessageAsync(this IRevoltRestClient client, Ulid channelId, RevoltMessage message,
-        CancellationToken cancellationToken = default)
+    public static async ValueTask<IMessage> CreateMessageAsync(this IRevoltRestClient client, Ulid channelId, RevoltMessage message, CancellationToken cancellationToken = default)
     {
         var createMessageModel = new CreateMessageApiModel(
             Optional<string>.FromNullable(message.Content),
@@ -44,5 +43,38 @@ public static partial class RestClientExtensions
 
         static MessageInteractionsApiModel ConvertInteractions(RevoltMessageInteractions interactions)
             => new(interactions.Reactions.ToArray(), interactions.RestrictReactions);
+    }
+    
+    public static ValueTask CloseChannelAsync(this IRevoltRestClient client, Ulid channelId, bool leaveGroupSilently = false, CancellationToken cancellationToken = default)
+        => client.ApiClient.CloseChannelAsync(channelId, leaveGroupSilently, cancellationToken);
+
+    public static async ValueTask<IServerChannel> ModifyServerChannelAsync(this IRevoltRestClient client, Ulid channelId, Action<EditChannelProperties> action, CancellationToken cancellationToken = default)
+    {
+        var model = await client.InternalEditChannelAsync(channelId, action, cancellationToken);
+        return (IServerChannel)RestChannel.Create(model, client);
+    }
+
+    public static async ValueTask<IGroupChannel> ModifyGroupChannelAsync(this IRevoltRestClient client, Ulid channelId, Action<EditGroupChannelProperties> action, CancellationToken cancellationToken = default)
+    {
+        var model = await client.InternalEditChannelAsync(channelId, action, cancellationToken);
+        return (IGroupChannel) RestChannel.Create(model, client);
+    }
+    
+    private static ValueTask<ChannelApiModel> InternalEditChannelAsync<TProperties>(this IRevoltRestClient client, Ulid channelId, Action<TProperties> action, CancellationToken cancellationToken = default)
+        where TProperties : EditChannelProperties
+    {
+        var properties = (TProperties)Activator.CreateInstance(typeof(TProperties), true)!;
+        action.Invoke(properties);
+
+        var model = new EditChannelApiModel(
+            properties.Name,
+            properties.Description,
+            Optional<Ulid>.FromNullable((properties as EditGroupChannelProperties)?.OwnerId.GetValueOrNullable()),
+            properties.Icon,
+            properties.IsNsfw,
+            properties.IsArchived,
+            Optional<RemoveChannelField[]>.Convert(properties.RemovedChannelFields, x => x.ToArray()));
+
+        return client.ApiClient.EditChannelAsync(channelId, model, cancellationToken);
     }
 }

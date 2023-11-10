@@ -2,7 +2,7 @@
 
 namespace Rivoltante.Core;
 
-public readonly struct Ulid : IEquatable<Ulid>,
+public readonly struct Ulid(byte[] rawValue) : IEquatable<Ulid>,
     IEquatable<string>,
     IComparable<Ulid>,
     IComparable<string>,
@@ -11,12 +11,7 @@ public readonly struct Ulid : IEquatable<Ulid>,
     private const int VALID_STRING_LENGTH = 26;
     private const string CROCKFORDS_BASE_32_VALID_CHARACTERS = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
 
-    private readonly byte[] _rawValue;
-    
-    internal Ulid(byte[] rawValue)
-    {
-        _rawValue = rawValue;
-    }
+    private readonly byte[] _rawValue = rawValue;
 
     public ReadOnlySpan<byte> RawValue => _rawValue.AsSpan();
     

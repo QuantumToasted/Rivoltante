@@ -10,7 +10,7 @@ public readonly struct Optional<T> : IOptional<T>
         HasValue = true;
     }
 
-    public bool HasValue { get; }
+    public bool HasValue { get; } = false;
 
     public T Value => HasValue ? _value : throw new InvalidOperationException();
 
@@ -51,10 +51,14 @@ public readonly struct Optional<T> : IOptional<T>
         => HasValue ? Value?.ToString() ?? "{{null}}" : "{{no value}}";
 
     public static Optional<T> None => default;
+    
+    public static Optional<T> FromNullable(T? value)
+        => value is not null ? value : None;
 
-    public static Optional<T> FromNullable(T? value) => value is null ? None : new(value);
+    public static Optional<T1> FromNullable<T1>(T1? value) where T1 : struct
+        => value.HasValue ? new Optional<T1>(value.Value) : Optional<T1>.None;
 
-    public static Optional<TNew> Convert<TOld, TNew>(Optional<TOld?> optional, Converter<TOld, TNew> converter)
+    public static Optional<TNew> Convert<TOld, TNew>(Optional<TOld> optional, Converter<TOld, TNew> converter)
         => optional is { HasValue: true, Value: not null } ? converter(optional.Value) : Optional<TNew>.None;
 
     public static TNew? ConvertOrDefault<TOld, TNew>(Optional<TOld> optional, Converter<TOld, TNew> converter)

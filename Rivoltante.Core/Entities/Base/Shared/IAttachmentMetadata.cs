@@ -1,6 +1,6 @@
 ﻿namespace Rivoltante.Core;
 
-public interface IMessageAttachmentMetadata
+public interface IAttachmentMetadata
 {
     string Type { get; }
 }

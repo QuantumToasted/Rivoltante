@@ -7,28 +7,30 @@ using Rivoltante.Rest;
 
 namespace Rivoltante.Test.Services;
 
-public class TestService : IHostedService
+public class TestService(IRevoltRestClient restClient, ILogger<TestService> logger) : IHostedService
 {
-    private readonly IRevoltRestClient _restClient;
-    private readonly ILogger _logger;
-
-    public TestService(IRevoltRestClient restClient, ILogger<TestService> logger)
-    {
-        _restClient = restClient;
-        _logger = logger;
-    }
-
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        try
+        _ = Task.Run(async () =>
         {
-            var messageToSend = new RevoltMessage { Content = "Hello from Rivoltante!" };
-            var message = await _restClient.CreateMessageAsync("01H2SK15KZ05FZXV9XQ3QN1QBA", messageToSend, cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Failed to send a message.");
-        }
+            try
+            {
+                var channel = await restClient.CreateTextChannelAsync("01H2SK15KZ914SN7MXDA5SFE4A", "test channel",
+                    cancellationToken: cancellationToken);
+
+                await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+
+                await restClient.ModifyServerChannelAsync(channel.Id, x => x.Name = "cooler test channel", cancellationToken);
+
+                await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+
+                await restClient.CloseChannelAsync(channel.Id, cancellationToken: cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Failed to create and modify a text channel.");
+            }
+        }, cancellationToken);
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

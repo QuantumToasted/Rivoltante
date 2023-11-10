@@ -14,8 +14,8 @@ public class RestMessage : IMessage
         AuthorId = model.Author;
         Webhook = Optional<RestMessageWebhook>.ConvertOrDefault(model.Webhook, static m => new RestMessageWebhook(m));
         Content = model.Content.GetValueOrDefault();
-        Attachments = Optional<IReadOnlyList<RestMessageAttachment>>.ConvertOrFallback(model.Attachments,
-            static m => m.Select(static x => new RestMessageAttachment(x)).ToList(), new List<RestMessageAttachment>());
+        Attachments = Optional<IReadOnlyList<RestAttachment>>.ConvertOrFallback(model.Attachments,
+            static m => m.Select(static x => new RestAttachment(x)).ToList(), new List<RestAttachment>());
         LastEdited = model.Edited.GetValueOrNullable();
         Embeds = Optional<IReadOnlyList<RestMessageEmbed>>.ConvertOrFallback(model.Embeds, static m => m.Select(RestMessageEmbed.Create).ToList(),
             new List<RestMessageEmbed>());
@@ -43,7 +43,7 @@ public class RestMessage : IMessage
     
     public string? Content { get; }
     
-    public IReadOnlyList<IMessageAttachment> Attachments { get; }
+    public IReadOnlyList<IAttachment> Attachments { get; }
     
     public DateTimeOffset? LastEdited { get; }
     

@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Rivoltante.Core;
 
-public record MessageAttachmentApiModel(
+public record AttachmentApiModel(
     [property: JsonProperty("_id")] string Id,
     [property: JsonProperty("tag")] string Tag,
     [property: JsonProperty("filename")] string Filename,

@@ -2,14 +2,9 @@
 
 namespace Rivoltante.Core.Emoji;
 
-public class CustomEmoji : ICustomEmoji
+public class CustomEmoji(Ulid id) : ICustomEmoji
 {
-    public CustomEmoji(Ulid id)
-    {
-        Id = id;
-    }
-
-    public Ulid Id { get; }
+    public Ulid Id { get; } = id;
 
     public static bool TryParse(string input, [NotNullWhen(true)] out CustomEmoji? emoji)
     {

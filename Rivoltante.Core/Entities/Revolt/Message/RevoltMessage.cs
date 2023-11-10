@@ -1,16 +1,9 @@
 ﻿namespace Rivoltante.Core;
 
-public sealed class RevoltMessage
-{
-    public string? Content { get; set; }
-
-    public IList<string>? Attachments { get; set; }
-
-    public IList<RevoltMessageReply>? Replies { get; set; }
-
-    public IList<RevoltMessageEmbed>? Embeds { get; set; }
-    
-    public RevoltMessageMasquerade? Masquerade { get; set; }
-    
-    public RevoltMessageInteractions? Interactions { get; set; }
-}
+public sealed record RevoltMessage(
+    string? Content = null, 
+    IList<string>? Attachments = null, 
+    IList<RevoltMessageReply>? Replies = null, 
+    IList<RevoltMessageEmbed>? Embeds = null,
+    RevoltMessageMasquerade? Masquerade = null, 
+    RevoltMessageInteractions? Interactions = null);
