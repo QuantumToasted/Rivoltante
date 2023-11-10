@@ -10,7 +10,7 @@ public interface IGroupChannel : IPrivateChannel
     
     IAttachment? Icon { get; }
     
-    Permissions? Permissions { get; }
+    Permission? Permissions { get; }
     
     bool IsNsfw { get; }
 }

@@ -96,7 +96,7 @@ public readonly struct Ulid(byte[] rawValue) : IEquatable<Ulid>,
                     23 => (ulid._rawValue[14] & 124) >> 2,
                     24 => ((ulid._rawValue[14] & 3) << 3) | ((ulid._rawValue[15] & 224) >> 5),
                     25 => ulid._rawValue[15] & 31,
-                    _ => throw new ArgumentOutOfRangeException(nameof(i)),
+                    _ => throw new ArgumentOutOfRangeException(nameof(i))
                 };
 
                 span[i] = CROCKFORDS_BASE_32_VALID_CHARACTERS[value];

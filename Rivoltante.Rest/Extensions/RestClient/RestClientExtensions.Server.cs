@@ -14,7 +14,7 @@ public static partial class RestClientExtensions
             isNsfw);
 
         var channelModel = await client.ApiClient.CreateChannelAsync(serverId, createChannelModel, cancellationToken);
-        return new RestTextChannel(channelModel, client);
+        return new CommonTextChannel(channelModel, client);
     }
     
     public static async Task<IVoiceChannel> CreateVoiceChannelAsync(this IRevoltRestClient client, Ulid serverId, string name, string? description = null, bool isNsfw = false,
@@ -27,6 +27,6 @@ public static partial class RestClientExtensions
             isNsfw);
 
         var channelModel = await client.ApiClient.CreateChannelAsync(serverId, createChannelModel, cancellationToken);
-        return new RestVoiceChannel(channelModel, client);
+        return new CommonVoiceChannel(channelModel, client);
     }
 }

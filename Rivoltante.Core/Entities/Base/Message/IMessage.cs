@@ -2,7 +2,7 @@
 
 public interface IMessage : IUlidEntity
 {
-    string Nonce { get; }
+    string? Nonce { get; }
     
     Ulid ChannelId { get; }
     

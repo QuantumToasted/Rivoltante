@@ -2,7 +2,7 @@
 
 public interface IPermissionOverride
 {
-    Permissions Allowed { get; }
+    Permission Allowed { get; }
     
-    Permissions Denied { get; }
+    Permission Denied { get; }
 }

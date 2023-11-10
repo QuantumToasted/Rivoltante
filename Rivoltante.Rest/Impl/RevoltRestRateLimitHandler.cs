@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Net;
 using Microsoft.Extensions.Logging;
-using Rivoltante.Rest.Extensions;
 
 namespace Rivoltante.Rest;
 

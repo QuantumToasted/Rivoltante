@@ -12,7 +12,7 @@ public sealed record ChannelApiModel(
     [property: JsonProperty("owner")] Optional<Ulid> Owner,
     [property: JsonProperty("description")] Optional<string> Description,
     [property: JsonProperty("icon")] Optional<AttachmentApiModel> Icon,
-    [property: JsonProperty("permissions")] Optional<Permissions> Permissions,
+    [property: JsonProperty("permissions")] Optional<Permission> Permissions,
     [property: JsonProperty("nsfw")] Optional<bool> Nsfw,
     [property: JsonProperty("user")] Optional<Ulid> User,
     [property: JsonProperty("server")] Optional<Ulid> Server,

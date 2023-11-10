@@ -3,5 +3,5 @@
 namespace Rivoltante.Core;
 
 public record PermissionOverrideApiModel(
-    [property: JsonProperty("a")] Permissions A, // allowed
-    [property: JsonProperty("d")] Permissions D); // denied
+    [property: JsonProperty("a")] Permission A, // allowed
+    [property: JsonProperty("d")] Permission D); // denied

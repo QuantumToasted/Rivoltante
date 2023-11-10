@@ -1,5 +1,4 @@
 ﻿using Rivoltante.Core;
-using Rivoltante.Rest.Message;
 
 namespace Rivoltante.Rest;
 
@@ -18,7 +17,7 @@ public static partial class RestClientExtensions
             Optional<MessageInteractionsApiModel>.Convert<RevoltMessageInteractions, MessageInteractionsApiModel>(message.Interactions, ConvertInteractions));
 
         var messageModel = await client.ApiClient.CreateMessageAsync(channelId, createMessageModel, cancellationToken);
-        return new RestMessage(client, messageModel);
+        return new CommonMessage(client, messageModel);
 
         static CreateMessageReplyApiModel ConvertReply(RevoltMessageReply reply)
             => new(reply.MessageId, reply.MentionAuthor);
@@ -44,6 +43,15 @@ public static partial class RestClientExtensions
         static MessageInteractionsApiModel ConvertInteractions(RevoltMessageInteractions interactions)
             => new(interactions.Reactions.ToArray(), interactions.RestrictReactions);
     }
+
+    public static ValueTask AcknowledgeMessageAsync(this IRevoltRestClient client, Ulid channelId, Ulid messageId, CancellationToken cancellationToken = default)
+        => client.ApiClient.AcknowledgeMessageAsync(channelId, messageId, cancellationToken);
+
+    public static async ValueTask<IFetchedMessages> FetchMessagesAsync(this IRevoltRestClient client, Ulid channelId, int? limit = null, Ulid? beforeMessageId = null, Ulid? afterMessageId = null, MessageSortOrder? sortOrder = null, Ulid? nearMessageId = null, bool? includeUsers = null, CancellationToken cancellationToken = default)
+    {
+        var model = await client.ApiClient.FetchMessagesAsync(channelId, limit, beforeMessageId, afterMessageId, sortOrder, nearMessageId, includeUsers, cancellationToken);
+        return new RestFetchedMessages(model, client);
+    }
     
     public static ValueTask CloseChannelAsync(this IRevoltRestClient client, Ulid channelId, bool leaveGroupSilently = false, CancellationToken cancellationToken = default)
         => client.ApiClient.CloseChannelAsync(channelId, leaveGroupSilently, cancellationToken);
@@ -51,13 +59,37 @@ public static partial class RestClientExtensions
     public static async ValueTask<IServerChannel> ModifyServerChannelAsync(this IRevoltRestClient client, Ulid channelId, Action<EditChannelProperties> action, CancellationToken cancellationToken = default)
     {
         var model = await client.InternalEditChannelAsync(channelId, action, cancellationToken);
-        return (IServerChannel)RestChannel.Create(model, client);
+        return (IServerChannel)CommonChannel.Create(model, client);
     }
 
     public static async ValueTask<IGroupChannel> ModifyGroupChannelAsync(this IRevoltRestClient client, Ulid channelId, Action<EditGroupChannelProperties> action, CancellationToken cancellationToken = default)
     {
         var model = await client.InternalEditChannelAsync(channelId, action, cancellationToken);
-        return (IGroupChannel) RestChannel.Create(model, client);
+        return (IGroupChannel) CommonChannel.Create(model, client);
+    }
+
+    public static async ValueTask<IInvite> CreateInviteAsync(this IRevoltRestClient client, Ulid channelId, CancellationToken cancellationToken = default)
+    {
+        var model = await client.ApiClient.CreateInviteAsync(channelId, cancellationToken);
+        return CommonInvite.Create(model, client);
+    }
+
+    public static async ValueTask<IServerChannel> SetRolePermissionsAsync(this IRevoltRestClient client, Ulid channelId, Ulid roleId, Permission allowed, Permission denied, CancellationToken cancellationToken = default)
+    {
+        var model = await client.ApiClient.SetRolePermissionsAsync(channelId, roleId, new SetChannelRolePermissionsApiModel(new RolePermissionsApiModel(allowed, denied)), cancellationToken);
+        return (IServerChannel)CommonChannel.Create(model, client);
+    }
+
+    public static async ValueTask<IGroupChannel> SetGroupChannelDefaultPermissionsAsync(this IRevoltRestClient client, Ulid channelId, Permission permissions, CancellationToken cancellationToken = default)
+    {
+        var model = await client.ApiClient.SetGroupChannelDefaultPermissionsAsync(channelId, new SetGroupChannelDefaultPermissionsApiModel(permissions), cancellationToken);
+        return (IGroupChannel)CommonChannel.Create(model, client);
+    }
+    
+    public static async ValueTask<IServerChannel> SetServerChannelDefaultPermissionsAsync(this IRevoltRestClient client, Ulid channelId, Permission allowed, Permission denied, CancellationToken cancellationToken = default)
+    {
+        var model = await client.ApiClient.SetServerChannelDefaultPermissionsAsync(channelId, new SetServerChannelDefaultPermissionsApiModel(new RolePermissionsApiModel(allowed, denied)), cancellationToken);
+        return (IServerChannel)CommonChannel.Create(model, client);
     }
     
     private static ValueTask<ChannelApiModel> InternalEditChannelAsync<TProperties>(this IRevoltRestClient client, Ulid channelId, Action<TProperties> action, CancellationToken cancellationToken = default)

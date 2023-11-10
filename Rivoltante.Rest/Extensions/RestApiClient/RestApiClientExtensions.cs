@@ -1,6 +1,8 @@
 ﻿using System.Text;
 using System.Web;
 
+using static System.Web.HttpUtility;
+
 namespace Rivoltante.Rest;
 
 public static partial class RestApiClientExtensions
@@ -14,7 +16,7 @@ public static partial class RestApiClientExtensions
             .Append(string.Format(route, parameters));
 
         if (queryParameters.Count > 0)
-            builder.Append('?').AppendJoin('&', queryParameters.Select(x => HttpUtility.UrlEncode($"{x.Key}={x.Value}")));
+            builder.Append('?').AppendJoin('&', queryParameters.Select(x => $"{UrlEncode(x.Key)}={UrlEncode(x.Value.ToString())}"));
 
         return builder.ToString();
     }

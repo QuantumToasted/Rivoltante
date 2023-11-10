@@ -1,4 +1,4 @@
-﻿namespace Rivoltante.Rest.Extensions;
+﻿namespace Rivoltante.Rest;
 
 internal static class HttpExtensions
 {

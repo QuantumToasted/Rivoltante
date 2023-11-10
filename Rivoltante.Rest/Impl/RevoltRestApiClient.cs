@@ -39,13 +39,23 @@ public class RevoltRestApiClient : IRevoltRestApiClient
 
         await using var stream = await InternalRequestAsync(method, route, model, cancellationToken).ConfigureAwait(false);
         using var streamReader = new StreamReader(stream);
-
-        // var json = await streamReader.ReadToEndAsync(cancellationToken);
-        // stream.Seek(0, SeekOrigin.Begin);
         
         await using var jsonReader = new JsonTextReader(streamReader);
 
         return _serializer.Deserialize<TModel>(jsonReader)!;
+    }
+    
+    public async ValueTask<TModel[]> RequestArrayAsync<TModel>(HttpMethod method, string route, ApiModel? model = null, 
+        CancellationToken cancellationToken = default) where TModel : ApiModel
+    {
+        model?.Validate();
+
+        await using var stream = await InternalRequestAsync(method, route, model, cancellationToken).ConfigureAwait(false);
+        using var streamReader = new StreamReader(stream);
+        
+        await using var jsonReader = new JsonTextReader(streamReader);
+
+        return _serializer.Deserialize<TModel[]>(jsonReader)!;
     }
 
     private async ValueTask<MemoryStream> InternalRequestAsync(HttpMethod method, string route, ApiModel? model, CancellationToken cancellationToken)

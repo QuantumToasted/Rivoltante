@@ -1,8 +1,6 @@
-﻿using System.Diagnostics;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json.Serialization;
 using Rivoltante.Core;
 using Rivoltante.Rest;
 using Rivoltante.Test.Services;
