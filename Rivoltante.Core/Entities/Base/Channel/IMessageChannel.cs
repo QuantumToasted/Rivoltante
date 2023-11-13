@@ -1,6 +1,6 @@
 ﻿namespace Rivoltante.Core;
 
-public interface IMessageChannel
+public interface IMessageChannel : IChannel
 {
     Ulid? LastMessageId { get; }
 }

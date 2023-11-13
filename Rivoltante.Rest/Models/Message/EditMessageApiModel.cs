@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using Rivoltante.Core;
 
 namespace Rivoltante.Rest;
 
 public sealed record EditMessageApiModel(
-    [property: JsonProperty("content")] Optional<string> Content,
-    [property: JsonProperty("content")] Optional<MessageEmbedApiModel> Embeds) : ApiModel;
+    [property: JsonPropertyName("content")] Optional<string> Content,
+    [property: JsonPropertyName("content")] Optional<MessageEmbedApiModel> Embeds) : ApiModel;

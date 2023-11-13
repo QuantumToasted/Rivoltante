@@ -1,6 +1,4 @@
-﻿using Rivoltante.Core.Emoji;
-
-namespace Rivoltante.Core;
+﻿namespace Rivoltante.Core;
 
 public sealed class CommonMessage : IMessage
 {

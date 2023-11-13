@@ -1,20 +1,20 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Rivoltante.Core;
 
 public record MessageApiModel(
-    [property: JsonProperty("_id")] Ulid Id,
-    [property: JsonProperty("nonce")] Optional<string> Nonce,
-    [property: JsonProperty("channel")] Ulid Channel,
-    [property: JsonProperty("author")] Ulid Author,
-    [property: JsonProperty("webhook")] Optional<MessageWebhookApiModel> Webhook,
-    [property: JsonProperty("content")] Optional<string> Content,
-    //[property: JsonProperty("system")] TODO: system property
-    [property: JsonProperty("attachments")] Optional<AttachmentApiModel[]> Attachments,
-    [property: JsonProperty("edited")] Optional<DateTimeOffset> Edited,
-    [property: JsonProperty("embeds")] Optional<MessageEmbedApiModel[]> Embeds,
-    [property: JsonProperty("mentions")] Optional<Ulid[]> Mentions,
-    [property: JsonProperty("replies")] Optional<Ulid[]> Replies,
-    [property: JsonProperty("reactions")] Optional<Dictionary<string, Ulid[]>> Reactions,
-    [property: JsonProperty("interactions")] Optional<MessageInteractionsApiModel> Interactions,
-    [property: JsonProperty("masquerade")] Optional<MessageMasqueradeApiModel> Masquerade) : ApiModel;
+    [property: JsonPropertyName("_id")] Ulid Id,
+    [property: JsonPropertyName("nonce")] Optional<string> Nonce,
+    [property: JsonPropertyName("channel")] Ulid Channel,
+    [property: JsonPropertyName("author")] Ulid Author,
+    [property: JsonPropertyName("webhook")] Optional<MessageWebhookApiModel> Webhook,
+    [property: JsonPropertyName("content")] Optional<string> Content,
+    //[property: JsonPropertyName("system")] TODO: system property
+    [property: JsonPropertyName("attachments")] Optional<AttachmentApiModel[]> Attachments,
+    [property: JsonPropertyName("edited")] Optional<DateTimeOffset> Edited,
+    [property: JsonPropertyName("embeds")] Optional<MessageEmbedApiModel[]> Embeds,
+    [property: JsonPropertyName("mentions")] Optional<Ulid[]> Mentions,
+    [property: JsonPropertyName("replies")] Optional<Ulid[]> Replies,
+    [property: JsonPropertyName("reactions")] Optional<Dictionary<string, Ulid[]>> Reactions,
+    [property: JsonPropertyName("interactions")] Optional<MessageInteractionsApiModel> Interactions,
+    [property: JsonPropertyName("masquerade")] Optional<MessageMasqueradeApiModel> Masquerade) : ApiModel;

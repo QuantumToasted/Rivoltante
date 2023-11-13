@@ -1,20 +1,20 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Rivoltante.Core;
 
 public sealed record ChannelApiModel(
-    [property: JsonProperty("_id")] Ulid Id,
-    [property: JsonProperty("channel_type")] ChannelType ChannelType,
-    [property: JsonProperty("active")] Optional<bool> Active,
-    [property: JsonProperty("recipients")] Optional<Ulid[]> Recipients,
-    [property: JsonProperty("last_message_id")] Optional<Ulid> LastMessageId,
-    [property: JsonProperty("name")] Optional<string> Name,
-    [property: JsonProperty("owner")] Optional<Ulid> Owner,
-    [property: JsonProperty("description")] Optional<string> Description,
-    [property: JsonProperty("icon")] Optional<AttachmentApiModel> Icon,
-    [property: JsonProperty("permissions")] Optional<Permission> Permissions,
-    [property: JsonProperty("nsfw")] Optional<bool> Nsfw,
-    [property: JsonProperty("user")] Optional<Ulid> User,
-    [property: JsonProperty("server")] Optional<Ulid> Server,
-    [property: JsonProperty("default_permissions")] Optional<PermissionOverrideApiModel> DefaultPermissions,
-    [property: JsonProperty("role_permissions")] Optional<Dictionary<string, PermissionOverrideApiModel>> RolePermissions) : ApiModel;
+    [property: JsonPropertyName("_id")] Ulid Id,
+    [property: JsonPropertyName("channel_type")] ChannelType ChannelType,
+    [property: JsonPropertyName("active")] Optional<bool> Active,
+    [property: JsonPropertyName("recipients")] Optional<Ulid[]> Recipients,
+    [property: JsonPropertyName("last_message_id")] Optional<Ulid> LastMessageId,
+    [property: JsonPropertyName("name")] Optional<string> Name,
+    [property: JsonPropertyName("owner")] Optional<Ulid> Owner,
+    [property: JsonPropertyName("description")] Optional<string> Description,
+    [property: JsonPropertyName("icon")] Optional<AttachmentApiModel> Icon,
+    [property: JsonPropertyName("permissions")] Optional<Permission> Permissions,
+    [property: JsonPropertyName("nsfw")] Optional<bool> Nsfw,
+    [property: JsonPropertyName("user")] Optional<Ulid> User,
+    [property: JsonPropertyName("server")] Optional<Ulid> Server,
+    [property: JsonPropertyName("default_permissions")] Optional<PermissionOverrideApiModel> DefaultPermissions,
+    [property: JsonPropertyName("role_permissions")] Optional<Dictionary<string, PermissionOverrideApiModel>> RolePermissions) : ApiModel;

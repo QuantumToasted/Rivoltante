@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Rivoltante.Core;
 
 public record UserProfileApiModel(
-    [property: JsonProperty("content")] Optional<string> Content,
-    [property: JsonProperty("background")] Optional<AttachmentApiModel> Background) : ApiModel;
+    [property: JsonPropertyName("content")] Optional<string> Content,
+    [property: JsonPropertyName("background")] Optional<AttachmentApiModel> Background) : ApiModel;

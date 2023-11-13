@@ -4,7 +4,7 @@ namespace Rivoltante.Rest;
 
 public static partial class RestClientExtensions
 {
-    public static async Task<ITextChannel> CreateTextChannelAsync(this IRevoltRestClient client, Ulid serverId, string name, string? description = null, bool isNsfw = false,
+    public static async ValueTask<ITextChannel> CreateTextChannelAsync(this IRevoltRestClient client, Ulid serverId, string name, string? description = null, bool isNsfw = false,
         CancellationToken cancellationToken = default)
     {
         var createChannelModel = new CreateChannelApiModel(
@@ -17,7 +17,7 @@ public static partial class RestClientExtensions
         return new CommonTextChannel(channelModel, client);
     }
     
-    public static async Task<IVoiceChannel> CreateVoiceChannelAsync(this IRevoltRestClient client, Ulid serverId, string name, string? description = null, bool isNsfw = false,
+    public static async ValueTask<IVoiceChannel> CreateVoiceChannelAsync(this IRevoltRestClient client, Ulid serverId, string name, string? description = null, bool isNsfw = false,
         CancellationToken cancellationToken = default)
     {
         var createChannelModel = new CreateChannelApiModel(

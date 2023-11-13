@@ -1,21 +1,21 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Reflection;
+using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
+using Rivoltante.Bonfire;
 using Rivoltante.Core;
 using Rivoltante.Rest;
-using Rivoltante.Test.Services;
+using Rivoltante.Test;
 using Serilog;
-using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 var host = new HostBuilder()
     .ConfigureHostConfiguration(x => x.AddEnvironmentVariables("RIVOLTANTE_"))
-    .ConfigureLogging(x =>
+    .UseSerilog((context, logger) =>
     {
-        Log.Logger = new LoggerConfiguration()
-            .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}")
-            .CreateLogger();
-
-        x.AddSerilog(Log.Logger);
+        logger.WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}");
     })
     .ConfigureServices((context, services) =>
     {
@@ -24,8 +24,17 @@ var host = new HostBuilder()
         services.AddSingleton<RevoltRestRateLimitHandler>();
         services.AddSingleton<IRevoltRestRateLimitHandler>(x => x.GetRequiredService<RevoltRestRateLimitHandler>());
 
-        services.AddSingleton(new JsonSerializer
-            { Converters = { new OptionalJsonConverter() }, ContractResolver = new OptionalJsonContractResolver() });
+        services.AddSingleton(new JsonSerializerOptions
+        {
+            Converters =
+            {
+                new UlidJsonConverter(),
+                new OptionalJsonConverter(),
+                new JsonStringEnumConverter()
+            },
+            TypeInfoResolver = new OptionalJsonTypeInfoResolver()
+        });
+        
         //services.AddSingleton<JsonSerializer>();
 
         var token = new BotToken(context.Configuration["TOKEN"]!);
@@ -37,6 +46,12 @@ var host = new HostBuilder()
         
         services.AddSingleton<RevoltRestApiClient>();
         services.AddSingleton<IRevoltRestApiClient>(x => x.GetRequiredService<RevoltRestApiClient>());
+
+        services.AddSingleton<RevoltWebSocketClientFactory>();
+        services.AddSingleton<IWebSocketClientFactory>(x => x.GetRequiredService<RevoltWebSocketClientFactory>());
+
+        services.AddSingleton<RevoltBonfireConnection>();
+        services.AddSingleton<IBonfireConnection>(x => x.GetRequiredService<RevoltBonfireConnection>());
 
         services.AddHostedService<TestService>();
     })

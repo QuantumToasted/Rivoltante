@@ -1,29 +1,20 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using Rivoltante.Core;
 
 namespace Rivoltante.Rest;
 
-public class RevoltRestApiClient : IRevoltRestApiClient
+public class RevoltRestApiClient(JsonSerializerOptions serializerOptions, ILogger<RevoltRestApiClient> logger, Token token, IRevoltRestRateLimitHandler rateLimitHandler)
+    : IRevoltRestApiClient
 {
-    private readonly JsonSerializer _serializer;
-    
-    public RevoltRestApiClient(JsonSerializer serializer, ILogger<RevoltRestApiClient> logger, Token token, IRevoltRestRateLimitHandler rateLimitHandler)
-    {
-        _serializer = serializer;
+    public ILogger Logger { get; } = logger;
 
-        Logger = logger;
-        Token = token;
-        RateLimitHandler = rateLimitHandler;
-    }
-    
-    public ILogger Logger { get; }
+    public Token Token { get; } = token;
 
-    public Token Token { get; }
-    
-    public IRevoltRestRateLimitHandler RateLimitHandler { get; }
+    public IRevoltRestRateLimitHandler RateLimitHandler { get; } = rateLimitHandler;
 
     public async ValueTask RequestAsync(HttpMethod method, string route, ApiModel? model = null,
         CancellationToken cancellationToken = default)
@@ -38,11 +29,8 @@ public class RevoltRestApiClient : IRevoltRestApiClient
         model?.Validate();
 
         await using var stream = await InternalRequestAsync(method, route, model, cancellationToken).ConfigureAwait(false);
-        using var streamReader = new StreamReader(stream);
-        
-        await using var jsonReader = new JsonTextReader(streamReader);
 
-        return _serializer.Deserialize<TModel>(jsonReader)!;
+        return JsonSerializer.Deserialize<TModel>(stream, serializerOptions)!;
     }
     
     public async ValueTask<TModel[]> RequestArrayAsync<TModel>(HttpMethod method, string route, ApiModel? model = null, 
@@ -52,10 +40,8 @@ public class RevoltRestApiClient : IRevoltRestApiClient
 
         await using var stream = await InternalRequestAsync(method, route, model, cancellationToken).ConfigureAwait(false);
         using var streamReader = new StreamReader(stream);
-        
-        await using var jsonReader = new JsonTextReader(streamReader);
 
-        return _serializer.Deserialize<TModel[]>(jsonReader)!;
+        return JsonSerializer.Deserialize<TModel[]>(stream, serializerOptions)!;
     }
 
     private async ValueTask<MemoryStream> InternalRequestAsync(HttpMethod method, string route, ApiModel? model, CancellationToken cancellationToken)
@@ -66,11 +52,8 @@ public class RevoltRestApiClient : IRevoltRestApiClient
 
         if (model is not null)
         {
-            var sb = new StringBuilder();
-            await using var writer = new StringWriter(sb);
-            _serializer.Serialize(writer, model);
-
-            request.Content = new StringContent(sb.ToString(), Encoding.UTF8, new MediaTypeHeaderValue("application/json", "utf8"));
+            var json = JsonSerializer.Serialize(model, serializerOptions);
+            request.Content = new StringContent(json, Encoding.UTF8, new MediaTypeHeaderValue("application/json", "utf8"));
         }
         
         request.Headers.Add(Token.HeaderName, Token.RawToken);
@@ -100,13 +83,10 @@ public class RevoltRestApiClient : IRevoltRestApiClient
         if (statusCode is > 499 and < 600)
             throw new HttpRequestException(response.ReasonPhrase, null, response.StatusCode);
 
-        using var streamReader = new StreamReader(responseStream, Encoding.UTF8);
-        await using var jsonReader = new JsonTextReader(streamReader);
-
         RequestErrorApiModel error;
         try
         {
-            error = _serializer.Deserialize<RequestErrorApiModel>(jsonReader)!;
+            error = JsonSerializer.Deserialize<RequestErrorApiModel>(responseStream, serializerOptions)!;
         }
         catch (Exception ex)
         {

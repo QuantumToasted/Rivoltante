@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Rivoltante.Core;
 
 public record MessageWebhookApiModel(
-    [property: JsonProperty("name")] string Name,
-    [property: JsonProperty("avatar")] Optional<string> Avatar) : ApiModel;
+    [property: JsonPropertyName("name")] string Name,
+    [property: JsonPropertyName("avatar")] Optional<string> Avatar) : ApiModel;

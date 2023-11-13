@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Rivoltante.Core;
 
 public sealed record InviteApiModel(
-    [property: JsonProperty("_id")] string Id,
-    [property: JsonProperty("type")] InviteType Type,
-    [property: JsonProperty("creator")] Ulid Creator,
-    [property: JsonProperty("channel")] Ulid Channel,
-    [property: JsonProperty("server")] Optional<Ulid> Server) : ApiModel;
+    [property: JsonPropertyName("_id")] string Id,
+    [property: JsonPropertyName("type")] InviteType Type,
+    [property: JsonPropertyName("creator")] Ulid Creator,
+    [property: JsonPropertyName("channel")] Ulid Channel,
+    [property: JsonPropertyName("server")] Optional<Ulid> Server) : ApiModel;

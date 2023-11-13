@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using Rivoltante.Core;
 
 namespace Rivoltante.Rest;
 
 public record BulkDeleteMessagesApiModel(
-    [property: JsonProperty("ids")] Ulid[] Ids) : ApiModel;
+    [property: JsonPropertyName("ids")] Ulid[] Ids) : ApiModel;

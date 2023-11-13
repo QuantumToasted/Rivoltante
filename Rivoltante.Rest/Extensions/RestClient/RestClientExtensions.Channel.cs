@@ -154,7 +154,7 @@ public static partial class RestClientExtensions
             properties.Icon,
             properties.IsNsfw,
             properties.IsArchived,
-            Optional<RemoveChannelField[]>.Convert(properties.RemovedChannelFields, x => x.ToArray()));
+            Optional<RemovedChannelField[]>.Convert(properties.RemovedChannelFields, x => x.ToArray()));
 
         return client.ApiClient.EditChannelAsync(channelId, model, cancellationToken);
     }

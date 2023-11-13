@@ -1,0 +1,41 @@
+﻿using System.Text.Json.Serialization;
+using Rivoltante.Core;
+
+namespace Rivoltante.Bonfire;
+
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "type", UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToNearestAncestor)]
+[JsonDerivedType(typeof(AuthenticatedEventApiModel), nameof(IncomingEventType.Authenticated))]
+[JsonDerivedType(typeof(BulkEventApiModel), nameof(IncomingEventType.Bulk))]
+[JsonDerivedType(typeof(ChannelAckEventApiModel), nameof(IncomingEventType.ChannelAck))]
+[JsonDerivedType(typeof(ChannelCreateEventApiModel), nameof(IncomingEventType.ChannelCreate))]
+[JsonDerivedType(typeof(ChannelDeleteEventApiModel), nameof(IncomingEventType.ChannelDelete))]
+[JsonDerivedType(typeof(ChannelGroupJoinEventApiModel), nameof(IncomingEventType.ChannelGroupJoin))]
+[JsonDerivedType(typeof(ChannelGroupLeaveEventApiModel), nameof(IncomingEventType.ChannelGroupLeave))]
+[JsonDerivedType(typeof(ChannelStartTypingEventApiModel), nameof(IncomingEventType.ChannelStartTyping))]
+[JsonDerivedType(typeof(ChannelStopTypingEventApiModel), nameof(IncomingEventType.ChannelStopTyping))]
+[JsonDerivedType(typeof(ChannelUpdateEventApiModel), nameof(IncomingEventType.ChannelUpdate))]
+[JsonDerivedType(typeof(EmojiCreateEventApiModel), nameof(IncomingEventType.EmojiCreate))]
+[JsonDerivedType(typeof(EmojiDeleteEventApiModel), nameof(IncomingEventType.EmojiDelete))]
+[JsonDerivedType(typeof(ErrorEventApiModel), nameof(IncomingEventType.Error))]
+[JsonDerivedType(typeof(MessageAppendEventApiModel), nameof(IncomingEventType.MessageAppend))]
+[JsonDerivedType(typeof(MessageDeleteEventApiModel), nameof(IncomingEventType.MessageDelete))]
+[JsonDerivedType(typeof(MessageEventApiModel), nameof(IncomingEventType.Message))]
+[JsonDerivedType(typeof(MessageReactEventApiModel), nameof(IncomingEventType.MessageReact))]
+[JsonDerivedType(typeof(MessageRemoveReactionEventApiModel), nameof(IncomingEventType.MessageRemoveReaction))]
+[JsonDerivedType(typeof(MessageUnreactEventApiModel), nameof(IncomingEventType.MessageUnreact))]
+[JsonDerivedType(typeof(MessageUpdateEventApiModel), nameof(IncomingEventType.MessageUpdate))]
+[JsonDerivedType(typeof(PongEventApiModel), nameof(IncomingEventType.Pong))]
+[JsonDerivedType(typeof(ReadyEventApiModel), nameof(IncomingEventType.Ready))]
+[JsonDerivedType(typeof(ServerCreateEventApiModel), nameof(IncomingEventType.ServerCreate))]
+[JsonDerivedType(typeof(ServerDeleteEventApiModel), nameof(IncomingEventType.ServerDelete))]
+[JsonDerivedType(typeof(ServerMemberJoinEventApiModel), nameof(IncomingEventType.ServerMemberJoin))]
+[JsonDerivedType(typeof(ServerMemberLeaveApiModel), nameof(IncomingEventType.ServerMemberLeave))]
+[JsonDerivedType(typeof(ServerMemberUpdateEventApiModel), nameof(IncomingEventType.ServerMemberUpdate))]
+[JsonDerivedType(typeof(ServerRoleDeleteEventApiModel), nameof(IncomingEventType.ServerRoleDelete))]
+[JsonDerivedType(typeof(ServerRoleUpdateEventApiModel), nameof(IncomingEventType.ServerRoleUpdate))]
+[JsonDerivedType(typeof(ServerUpdateEventApiModel), nameof(IncomingEventType.ServerUpdate))]
+[JsonDerivedType(typeof(UserPlatformWipeEventApiModel), nameof(IncomingEventType.UserPlatformWipe))]
+[JsonDerivedType(typeof(UserRelationshipEventApiModel), nameof(IncomingEventType.UserRelationship))]
+[JsonDerivedType(typeof(UserUpdateEventApiModel), nameof(IncomingEventType.UserUpdate))]
+public abstract record IncomingEventApiModel(
+    [property: JsonIgnore] IncomingEventType? Type) : ApiModel;

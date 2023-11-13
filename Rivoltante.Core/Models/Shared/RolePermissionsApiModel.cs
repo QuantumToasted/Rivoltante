@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Rivoltante.Core;
 
 public record RolePermissionsApiModel(
-    [property: JsonProperty("allow")] Permission Allow,
-    [property: JsonProperty("deny")] Permission Deny) : ApiModel;
+    [property: JsonPropertyName("allow")] Permission Allow,
+    [property: JsonPropertyName("deny")] Permission Deny) : ApiModel;

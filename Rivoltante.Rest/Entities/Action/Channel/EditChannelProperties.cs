@@ -17,5 +17,5 @@ public class EditChannelProperties
     
     public Optional<bool> IsArchived { internal get; set; }
     
-    public Optional<IEnumerable<RemoveChannelField>> RemovedChannelFields { internal get; set; }
+    public Optional<IEnumerable<RemovedChannelField>> RemovedChannelFields { internal get; set; }
 }

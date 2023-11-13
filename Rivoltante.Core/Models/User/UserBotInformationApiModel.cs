@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Rivoltante.Core;
 
 public record UserBotInformationApiModel(
-    [property: JsonProperty("owner")] Ulid Owner) : ApiModel;
+    [property: JsonPropertyName("owner")] Ulid Owner) : ApiModel;

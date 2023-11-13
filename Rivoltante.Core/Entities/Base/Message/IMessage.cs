@@ -1,10 +1,8 @@
 ﻿namespace Rivoltante.Core;
 
-public interface IMessage : IUlidEntity
+public interface IMessage : IUlidEntity, IChannelEntity
 {
     string? Nonce { get; }
-    
-    Ulid ChannelId { get; }
     
     Ulid AuthorId { get; }
     

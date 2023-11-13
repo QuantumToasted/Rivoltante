@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Rivoltante.Core;
 
 public record MessageEmbedVideoApiModel(
-    [property: JsonProperty("url")] string Url,
-    [property: JsonProperty("width")] int Width,
-    [property: JsonProperty("height")] int Height);
+    [property: JsonPropertyName("url")] string Url,
+    [property: JsonPropertyName("width")] int Width,
+    [property: JsonPropertyName("height")] int Height);

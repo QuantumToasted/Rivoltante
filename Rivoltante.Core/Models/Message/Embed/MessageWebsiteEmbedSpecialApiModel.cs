@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Rivoltante.Core;
 
 public record MessageWebsiteEmbedSpecialApiModel(
-    [property: JsonProperty("type")] EmbedWebsiteSpecialType Type,
-    [property: JsonProperty("id")] Optional<string> Id,
-    [property: JsonProperty("timestamp")] Optional<string> Timestamp,
-    [property: JsonProperty("content_type")] Optional<string> ContentType);
+    [property: JsonPropertyName("type")] EmbedWebsiteSpecialType Type,
+    [property: JsonPropertyName("id")] Optional<string> Id,
+    [property: JsonPropertyName("timestamp")] Optional<string> Timestamp,
+    [property: JsonPropertyName("content_type")] Optional<string> ContentType);

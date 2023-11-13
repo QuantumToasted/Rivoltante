@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Rivoltante.Core;
 
 public record PermissionOverrideApiModel(
-    [property: JsonProperty("a")] Permission A, // allowed
-    [property: JsonProperty("d")] Permission D); // denied
+    [property: JsonPropertyName("a")] Permission A, // allowed
+    [property: JsonPropertyName("d")] Permission D); // denied
