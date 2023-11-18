@@ -48,12 +48,14 @@ var host = new HostBuilder()
         services.AddSingleton<IBonfireApiClient>(x => x.GetRequiredService<RevoltBonfireApiClient>());
 
         services.AddSingleton<TestService>();
+        services.AddHostedService<TestService>();
     })
     .Build();
 
 try
 {
     Log.Information("Hosting started!");
+    /*
     _ = Task.Run(async () =>
     {
         await Task.Delay(TimeSpan.FromSeconds(3));
@@ -66,6 +68,7 @@ try
             Log.Fatal(ex, "uhhh");
         }
     });
+    */
     
     await host.RunAsync();
 }

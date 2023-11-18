@@ -23,7 +23,7 @@ public sealed partial class RevoltBonfireEventManager : IBonfireEventManager
             [ReceiveEventType.Ready] = new ReadyEventHandler(this),
             [ReceiveEventType.Message] = new MessageCreatedEventHandler(this),
             [ReceiveEventType.MessageUpdate] = new MessageUpdatedEventHandler(this),
-            [ReceiveEventType.MessageAppend] = new MessageUpdatedEventHandler(this), // TODO: issues with two events mapping to the same handler?
+            [ReceiveEventType.MessageAppend] = new MessageAppendedEventHandler(this),
             [ReceiveEventType.MessageDelete] = new MessageDeletedEventHandler(this),
             [ReceiveEventType.MessageReact] = new MessageReactedEventHandler(this),
             [ReceiveEventType.MessageUnreact] = new MessageUnreactedEventHandler(this),
@@ -72,7 +72,7 @@ public sealed partial class RevoltBonfireEventManager : IBonfireEventManager
     {
         Ensure.Is<IBonfireApiClient>(sender);
         
-        Logger.LogInformation("Received event {Type}", e.Type);
+        Logger.LogInformation("Received event {Type}.", e.Type);
 
         if (e.Model is BulkEventApiModel bulkEventApiModel)
         {
@@ -97,7 +97,7 @@ public sealed partial class RevoltBonfireEventManager : IBonfireEventManager
 
         try
         {
-            await handler.HandleAsync(Client, model).ConfigureAwait(false);
+            await handler.HandleAsync(client, model).ConfigureAwait(false);
         }
         catch (Exception ex)
         {

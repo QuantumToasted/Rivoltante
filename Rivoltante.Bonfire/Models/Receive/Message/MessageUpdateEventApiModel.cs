@@ -2,7 +2,7 @@
 
 namespace Rivoltante.Bonfire;
 
-public class MessageUpdateEventApiModel : IReceiveEventApiModel
+public sealed class MessageUpdateEventApiModel : IReceiveEventApiModel
 {
     public required Ulid Id { get; init; }
 

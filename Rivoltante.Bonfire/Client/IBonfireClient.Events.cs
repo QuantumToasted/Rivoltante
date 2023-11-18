@@ -2,65 +2,65 @@
 
 public partial interface IBonfireClient
 {
-    event AsyncEventHandler<ErrorEventArgs> ErrorEvent;
+    event AsyncEventHandler<ErrorEventArgs> Error;
     
-    event AsyncEventHandler<AuthenticatedEventArgs> AuthenticatedEvent;
+    event AsyncEventHandler<AuthenticatedEventArgs> Authenticated;
     
-    event AsyncEventHandler<PongEventArgs> PongEvent;
+    event AsyncEventHandler<PongEventArgs> Pong;
     
-    event AsyncEventHandler<ReadyEventArgs> ReadyEvent;
+    event AsyncEventHandler<ReadyEventArgs> Ready;
     
-    event AsyncEventHandler<MessageCreatedEventArgs> MessageCreatedEvent;
+    event AsyncEventHandler<MessageCreatedEventArgs> MessageCreated;
     
-    event AsyncEventHandler<MessageUpdatedEventArgs> MessageUpdatedEvent;
+    event AsyncEventHandler<MessageUpdatedEventArgs> MessageUpdated;
     
-    event AsyncEventHandler<MessageDeletedEventArgs> MessageDeletedEvent;
+    event AsyncEventHandler<MessageDeletedEventArgs> MessageDeleted;
     
-    event AsyncEventHandler<MessageReactedEventArgs> MessageReactedEvent;
+    event AsyncEventHandler<MessageReactedEventArgs> MessageReacted;
     
-    event AsyncEventHandler<MessageUnreactedEventArgs> MessageUnreactedEvent;
+    event AsyncEventHandler<MessageUnreactedEventArgs> MessageUnreacted;
     
-    event AsyncEventHandler<MessageReactionRemovedEventArgs> ReactionRemovedEvent;
+    event AsyncEventHandler<MessageReactionRemovedEventArgs> ReactionRemoved;
     
-    event AsyncEventHandler<ChannelCreatedEventArgs> ChannelCreatedEvent;
+    event AsyncEventHandler<ChannelCreatedEventArgs> ChannelCreated;
     
-    event AsyncEventHandler<ChannelUpdatedEventArgs> ChannelUpdatedEvent;
+    event AsyncEventHandler<ChannelUpdatedEventArgs> ChannelUpdated;
     
-    event AsyncEventHandler<ChannelDeletedEventArgs> ChannelDeletedEvent;
+    event AsyncEventHandler<ChannelDeletedEventArgs> ChannelDeleted;
     
-    event AsyncEventHandler<ChannelGroupJoinedEventArgs> GroupJoinedEvent;
+    event AsyncEventHandler<ChannelGroupJoinedEventArgs> GroupJoined;
     
-    event AsyncEventHandler<ChannelGroupLeftEventArgs> GroupLeftEvent;
+    event AsyncEventHandler<ChannelGroupLeftEventArgs> GroupLeft;
     
-    event AsyncEventHandler<ChannelTypingStartedEventArgs> TypingStartedEvent;
+    event AsyncEventHandler<ChannelTypingStartedEventArgs> TypingStarted;
     
-    event AsyncEventHandler<ChannelTypingStoppedEventArgs> TypingStoppedEvent;
+    event AsyncEventHandler<ChannelTypingStoppedEventArgs> TypingStopped;
     
-    event AsyncEventHandler<MessagesAcknowledgedEventArgs> MessagesAcknowledgedEvent;
+    event AsyncEventHandler<MessagesAcknowledgedEventArgs> MessagesAcknowledged;
     
-    event AsyncEventHandler<ServerCreatedEventArgs> ServerCreatedEvent;
+    event AsyncEventHandler<ServerCreatedEventArgs> ServerCreated;
     
-    event AsyncEventHandler<ServerUpdatedEventArgs> ServerUpdatedEvent;
+    event AsyncEventHandler<ServerUpdatedEventArgs> ServerUpdated;
     
-    event AsyncEventHandler<ServerDeletedEventArgs> ServerDeletedEvent;
+    event AsyncEventHandler<ServerDeletedEventArgs> ServerDeleted;
     
-    event AsyncEventHandler<ServerMemberUpdatedEventArgs> MemberUpdatedEvent;
+    event AsyncEventHandler<ServerMemberUpdatedEventArgs> MemberUpdated;
     
-    event AsyncEventHandler<ServerMemberJoinedEventArgs> MemberJoinedEvent;
+    event AsyncEventHandler<ServerMemberJoinedEventArgs> MemberJoined;
     
-    event AsyncEventHandler<ServerMemberLeftEventArgs> MemberLeftEvent;
+    event AsyncEventHandler<ServerMemberLeftEventArgs> MemberLeft;
     
-    event AsyncEventHandler<ServerRoleUpdatedEventArgs> RoleUpdatedEvent;
+    event AsyncEventHandler<ServerRoleUpdatedEventArgs> RoleUpdated;
     
-    event AsyncEventHandler<ServerRoleDeletedEventArgs> RoleDeletedEvent;
+    event AsyncEventHandler<ServerRoleDeletedEventArgs> RoleDeleted;
     
-    event AsyncEventHandler<UserUpdatedEventArgs> UserUpdatedEvent;
+    event AsyncEventHandler<UserUpdatedEventArgs> UserUpdated;
     
-    event AsyncEventHandler<UserRelationshipUpdatedEventArgs> UserRelationshipUpdatedEvent;
+    event AsyncEventHandler<UserRelationshipUpdatedEventArgs> UserRelationshipUpdated;
     
-    event AsyncEventHandler<UserPlatformDataWipedEventArgs> UserPlatformDataWipedEvent;
+    event AsyncEventHandler<UserPlatformDataWipedEventArgs> UserPlatformDataWiped;
     
-    event AsyncEventHandler<EmojiCreatedEventArgs> EmojiCreatedEvent;
+    event AsyncEventHandler<EmojiCreatedEventArgs> EmojiCreated;
     
-    event AsyncEventHandler<EmojiDeletedEventArgs> EmojiDeletedEvent;
+    event AsyncEventHandler<EmojiDeletedEventArgs> EmojiDeleted;
 }
