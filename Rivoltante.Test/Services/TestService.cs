@@ -5,7 +5,7 @@ using Rivoltante.Delta;
 
 namespace Rivoltante.Test;
 
-public sealed class TestService(ILogger<TestService> logger, IBonfireEventManager eventManager, IBonfireClient bonfireClient, IDeltaApiClient deltaApiClient)
+public sealed class TestService(ILogger<TestService> logger, IBonfireEventManager eventManager, IBonfireClient bonfireClient, IDeltaClient deltaApiClient)
     : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -18,7 +18,7 @@ public sealed class TestService(ILogger<TestService> logger, IBonfireEventManage
 
         try
         {
-            var model = await deltaApiClient.RequestAsync<NodeQueryApiModel>(HttpMethod.Get, RevoltDeltaApiClient.BaseApiUrl,
+            var model = await deltaApiClient.RequestAsync<NodeQueryApiModel>(HttpMethod.Get, RevoltDeltaClient.BaseApiUrl,
                 cancellationToken: stoppingToken);
             
             await bonfireClient.RunAsync(new Uri(model.Ws), stoppingToken);

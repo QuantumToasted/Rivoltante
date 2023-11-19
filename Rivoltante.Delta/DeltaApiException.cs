@@ -4,7 +4,7 @@ using Humanizer;
 
 namespace Rivoltante.Delta;
 
-public class DeltaApiException : HttpRequestException
+public sealed class DeltaApiException : HttpRequestException
 {
     public DeltaApiException(HttpStatusCode statusCode, ErrorResponseApiModel errorModel)
         : base(FormatMessage(statusCode, errorModel), null, statusCode)

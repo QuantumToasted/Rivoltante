@@ -1,6 +1,6 @@
 ﻿namespace Rivoltante.Core;
 
-public class CommonMessageUnknownEmbed(MessageEmbedApiModel model) : CommonMessageEmbed
+public sealed class CommonMessageUnknownEmbed(MessageEmbedApiModel model) : CommonMessageEmbed
 {
     public string RawEmbedType { get; } = model.Type;
     

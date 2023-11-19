@@ -2,5 +2,6 @@
 
 public interface IRevoltClient : ILogs
 {
-    IRevoltApiClient ApiClient { get; }
+    //IRevoltApiClient ApiClient { get; }
+    Token Token { get; }
 }

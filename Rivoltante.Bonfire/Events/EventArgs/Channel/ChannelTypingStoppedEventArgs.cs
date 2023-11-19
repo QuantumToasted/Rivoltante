@@ -2,7 +2,7 @@
 
 namespace Rivoltante.Bonfire;
 
-public class ChannelTypingStoppedEventArgs(Ulid channelId, Ulid userId) : EventArgs
+public sealed class ChannelTypingStoppedEventArgs(Ulid channelId, Ulid userId) : EventArgs
 {
     public Ulid ChannelId { get; } = channelId;
     

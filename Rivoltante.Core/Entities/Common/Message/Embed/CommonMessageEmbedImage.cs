@@ -1,6 +1,6 @@
 ﻿namespace Rivoltante.Core;
 
-public class CommonMessageEmbedImage(MessageEmbedImageApiModel model) : IMessageEmbedImage
+public sealed class CommonMessageEmbedImage(MessageEmbedImageApiModel model) : IMessageEmbedImage
 {
     public string Url { get; } = model.Url;
 

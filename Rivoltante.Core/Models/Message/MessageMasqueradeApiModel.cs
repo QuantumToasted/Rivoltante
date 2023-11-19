@@ -2,7 +2,7 @@
 
 namespace Rivoltante.Core;
 
-public class MessageMasqueradeApiModel : IApiModel
+public sealed class MessageMasqueradeApiModel : IApiModel
 {
     public Optional<string> Name { get; init; }
     

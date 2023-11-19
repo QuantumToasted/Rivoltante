@@ -34,18 +34,12 @@ var host = new HostBuilder()
         
         services.AddSingleton<RevoltDeltaClient>();
         services.AddSingleton<IDeltaClient>(x => x.GetRequiredService<RevoltDeltaClient>());
-        
-        services.AddSingleton<RevoltDeltaApiClient>();
-        services.AddSingleton<IDeltaApiClient>(x => x.GetRequiredService<RevoltDeltaApiClient>());
 
         services.AddSingleton<RevoltBonfireEventManager>();
         services.AddSingleton<IBonfireEventManager>(x => x.GetRequiredService<RevoltBonfireEventManager>());
         
         services.AddSingleton<RevoltBonfireClient>();
         services.AddSingleton<IBonfireClient>(x => x.GetRequiredService<RevoltBonfireClient>());
-        
-        services.AddSingleton<RevoltBonfireApiClient>();
-        services.AddSingleton<IBonfireApiClient>(x => x.GetRequiredService<RevoltBonfireApiClient>());
 
         services.AddSingleton<TestService>();
         services.AddHostedService<TestService>();

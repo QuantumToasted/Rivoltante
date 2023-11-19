@@ -2,7 +2,7 @@
 
 namespace Rivoltante.Bonfire;
 
-public class ServerMemberLeftEventArgs(Ulid serverId, Ulid memberId) : EventArgs
+public sealed class ServerMemberLeftEventArgs(Ulid serverId, Ulid memberId) : EventArgs
 {
     public Ulid ServerId { get; } = serverId;
     

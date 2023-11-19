@@ -16,7 +16,7 @@ public sealed class RevoltDeltaRateLimiter(ILogger<RevoltDeltaRateLimiter> logge
     {
         using var _ = await _semaphore.EnterAsync(cancellationToken).ConfigureAwait(false);
         
-        var route = request.ExtractRoute(RevoltDeltaApiClient.BaseApiUrl);
+        var route = request.ExtractRoute(RevoltDeltaClient.BaseApiUrl);
         var bucket = _buckets.GetOrAdd(route, static _ => new RateLimitBucket());
 
         // TODO: maximum wait time

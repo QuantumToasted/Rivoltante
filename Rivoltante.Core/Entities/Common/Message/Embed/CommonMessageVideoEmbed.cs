@@ -1,6 +1,6 @@
 ﻿namespace Rivoltante.Core;
 
-public class CommonMessageVideoEmbed(MessageEmbedApiModel model) : CommonMessageEmbed
+public sealed class CommonMessageVideoEmbed(MessageEmbedApiModel model) : CommonMessageEmbed
 {
     public string Url { get; } = model.Url.Value;
 

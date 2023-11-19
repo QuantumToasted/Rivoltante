@@ -1,6 +1,6 @@
 ﻿namespace Rivoltante.Core;
 
-public class MessageEmbedVideoApiModel : IApiModel
+public sealed class MessageEmbedVideoApiModel : IApiModel
 {
     public required string Url { get; init; }
     

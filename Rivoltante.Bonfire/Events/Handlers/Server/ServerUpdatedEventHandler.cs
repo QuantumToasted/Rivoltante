@@ -2,7 +2,7 @@
 
 namespace Rivoltante.Bonfire;
 
-public class ServerUpdatedEventHandler(RevoltBonfireEventManager eventManager) : BonfireEventHandler<ServerUpdateEventApiModel, ServerUpdatedEventArgs>(eventManager)
+public sealed class ServerUpdatedEventHandler(RevoltBonfireEventManager eventManager) : BonfireEventHandler<ServerUpdateEventApiModel, ServerUpdatedEventArgs>(eventManager)
 {
     public override ValueTask<ServerUpdatedEventArgs?> HandleAsync(IBonfireClient client, ServerUpdateEventApiModel model)
     {

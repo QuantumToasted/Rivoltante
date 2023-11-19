@@ -2,7 +2,7 @@
 
 namespace Rivoltante.Bonfire;
 
-public class ChannelUpdateEventApiModel : IReceiveEventApiModel
+public sealed class ChannelUpdateEventApiModel : IReceiveEventApiModel
 {
     public required Ulid Id { get; init; }
     

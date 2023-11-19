@@ -2,7 +2,7 @@
 
 namespace Rivoltante.Bonfire;
 
-public class MessagesAcknowledgedEventArgs(Ulid channelId, Ulid userId, Ulid messageId) : EventArgs
+public sealed class MessagesAcknowledgedEventArgs(Ulid channelId, Ulid userId, Ulid messageId) : EventArgs
 {
     public Ulid ChannelId { get; } = channelId;
     

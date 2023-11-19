@@ -1,6 +1,6 @@
 ﻿namespace Rivoltante.Core;
 
-public class MessageWebhookApiModel : IApiModel
+public sealed class MessageWebhookApiModel : IApiModel
 {
     public required string Name { get; init; }
     

@@ -2,7 +2,7 @@
 
 namespace Rivoltante.Bonfire;
 
-public class MessagesAcknowledgedEventHandler(RevoltBonfireEventManager eventManager) 
+public sealed class MessagesAcknowledgedEventHandler(RevoltBonfireEventManager eventManager) 
     : BonfireEventHandler<ChannelAckEventApiModel, MessagesAcknowledgedEventArgs>(eventManager)
 {
     public override ValueTask<MessagesAcknowledgedEventArgs?> HandleAsync(IBonfireClient client, ChannelAckEventApiModel model)

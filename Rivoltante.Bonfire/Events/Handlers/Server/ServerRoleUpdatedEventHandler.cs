@@ -2,7 +2,7 @@
 
 namespace Rivoltante.Bonfire;
 
-public class ServerRoleUpdatedEventHandler(RevoltBonfireEventManager eventManager) : BonfireEventHandler<ServerRoleUpdateEventApiModel, ServerRoleUpdatedEventArgs>(eventManager)
+public sealed class ServerRoleUpdatedEventHandler(RevoltBonfireEventManager eventManager) : BonfireEventHandler<ServerRoleUpdateEventApiModel, ServerRoleUpdatedEventArgs>(eventManager)
 {
     public override ValueTask<ServerRoleUpdatedEventArgs?> HandleAsync(IBonfireClient client, ServerRoleUpdateEventApiModel model)
     {

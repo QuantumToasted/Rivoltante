@@ -1,6 +1,6 @@
 ﻿namespace Rivoltante.Core;
 
-public class ServerSystemMessagesApiModel : IApiModel
+public sealed class ServerSystemMessagesApiModel : IApiModel
 {
     public Optional<Ulid> UserJoined { get; init; }
 

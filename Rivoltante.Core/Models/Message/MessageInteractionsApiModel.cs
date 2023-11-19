@@ -1,6 +1,6 @@
 ﻿namespace Rivoltante.Core;
 
-public class MessageInteractionsApiModel : IApiModel
+public sealed class MessageInteractionsApiModel : IApiModel
 {
     public Optional<string[]> Reactions { get; init; }
 

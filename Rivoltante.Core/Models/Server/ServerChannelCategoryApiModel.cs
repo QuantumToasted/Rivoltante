@@ -1,6 +1,6 @@
 ﻿namespace Rivoltante.Core;
 
-public class ServerChannelCategoryApiModel : IApiModel
+public sealed class ServerChannelCategoryApiModel : IApiModel
 {
     public required Ulid Id { get; init; }
     

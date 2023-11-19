@@ -6,7 +6,7 @@ public sealed class PongEventHandler(RevoltBonfireEventManager eventManager) : B
 {
     public override ValueTask<PongEventArgs?> HandleAsync(IBonfireClient client, PongEventApiModel model)
     {
-        if (client.ApiClient is RevoltBonfireApiClient apiClient)
+        if (client is RevoltBonfireClient apiClient)
         {
             var now = DateTimeOffset.UtcNow;
             apiClient.Latency = now - apiClient.LastPing;

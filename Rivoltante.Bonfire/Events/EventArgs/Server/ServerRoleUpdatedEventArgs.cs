@@ -2,7 +2,7 @@
 
 namespace Rivoltante.Bonfire;
 
-public class ServerRoleUpdatedEventArgs(Ulid serverId, Ulid roleId, PartialServerRoleUpdateApiModel model, IEnumerable<RemovedRoleField> removedFields) 
+public sealed class ServerRoleUpdatedEventArgs(Ulid serverId, Ulid roleId, PartialServerRoleUpdateApiModel model, IEnumerable<RemovedRoleField> removedFields) 
     : EventArgs
 {
     public Ulid ServerId { get; } = serverId;

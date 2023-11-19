@@ -64,13 +64,13 @@ public sealed partial class RevoltBonfireEventManager : IBonfireEventManager
             return;
 
         Client = client;
-        client.ApiClient.ReceivedEvent.Add(HandleDispatchAsync);
+        client.ReceivedEvent.Add(HandleDispatchAsync);
         _initialized = true;
     }
 
     public async ValueTask HandleDispatchAsync(object? sender, BonfireReceivedEventArgs e)
     {
-        Ensure.Is<IBonfireApiClient>(sender);
+        Ensure.Is<IBonfireClient>(sender);
         
         Logger.LogInformation("Received event {Type}.", e.Type);
 
@@ -102,7 +102,7 @@ public sealed partial class RevoltBonfireEventManager : IBonfireEventManager
         catch (Exception ex)
         {
             Logger.LogError(ex, "An exception occurred handling the Bonfire event {EventType}.\n{Json}", model.Type.Value,
-                JsonSerializer.Serialize(model, Client.ApiClient.SerializerOptions));
+                JsonSerializer.Serialize(model, Client.SerializerOptions));
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Rivoltante.Core;
 
-public class CommonServerEmoji(EmojiApiModel model, IRevoltClient client) : IServerEmoji
+public sealed class CommonServerEmoji(EmojiApiModel model, IRevoltClient client) : IServerEmoji
 {
     public IRevoltClient Client { get; } = client;
 

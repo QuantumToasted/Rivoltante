@@ -2,7 +2,7 @@
 
 namespace Rivoltante.Bonfire;
 
-public class ChannelTypingStoppedEventHandler(RevoltBonfireEventManager eventManager) 
+public sealed class ChannelTypingStoppedEventHandler(RevoltBonfireEventManager eventManager) 
     : BonfireEventHandler<ChannelStopTypingEventApiModel, ChannelTypingStoppedEventArgs>(eventManager)
 {
     public override ValueTask<ChannelTypingStoppedEventArgs?> HandleAsync(IBonfireClient client, ChannelStopTypingEventApiModel model)
